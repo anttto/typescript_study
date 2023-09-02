@@ -109,3 +109,82 @@ TypeScript 스터디 - 뿌셔버리자
     const hobby: Hobby = { name: 'illustration', years: 10 };
 }
 ```
+
+## 4. Union Type (예제1)
+
+```
+   type Direction = 'left' | 'right' | 'up' | 'down';
+    function move(direction: Direction) {
+        console.log(direction);
+    }
+    move('left');
+
+    type TileSize = 1 | 4 | 8;
+    const tile: TileSize = 8;
+```
+
+## 5. Union Type (예제2)
+
+```
+//로그인 성공or실패 반환 타입 지정
+type SuccessState = {
+        response: {
+            body: string;
+        };
+    };
+    type FailState = {
+        reason: string;
+    };
+    type LoginState = SuccessState | FailState;
+
+    function fetchLogin(): LoginState {
+        return {
+            response: {
+                body: 'gggg',
+            },
+        };
+    }
+    function printLoginState(state: LoginState) {
+        if ('response' in state) {
+            console.log(`로그인 성공 ${state.response.body}`);
+        } else {
+            console.log(`로그인 실패 ${state.reason}`);
+        }
+    }
+```
+
+## 6. 필수 타입! Discriminated Union
+
+(Union Type 에 보다 더 명확한 공통의 타입 내부 구분자 지정)
+
+```
+{
+    type SuccessState = {
+        result: 'success';  //이녀석 추가
+        response: {
+            body: string;
+        };
+    };
+    type FailState = {
+        result: 'fail';     //이녀석 추가
+        reason: string;
+    };
+    type LoginState = SuccessState | FailState;
+
+    function fetchLogin(): LoginState {
+        return {
+            result: 'success',      //이런식으로 구분자를
+            response: {
+                body: 'Logged in!',
+            },
+        };
+    }
+    function printLoginState(state: LoginState) {
+        if (state.result === 'success') {   //조건문 변경
+            console.log(`로그인 성공 ${state.response.body}`);
+        } else {
+            console.log(`로그인 실패 ${state.reason}`);
+        }
+    }
+}
+```
