@@ -3,8 +3,7 @@
 TypeScript 스터디 - 뿌셔버리자
 
 ## 기본 타입 정의
-
-    ```
+```
     const num: number = 1;
     const str: string = 'dosaeun';
     const boal: boolean = false;
@@ -42,7 +41,5 @@ TypeScript 스터디 - 뿌셔버리자
     function accept(obj: object) {
         accept({ name: 'dosaeun' });
     }
-
-```
 
 ```
