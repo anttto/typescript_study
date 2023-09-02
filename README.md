@@ -3,6 +3,7 @@
 TypeScript 스터디 - 뿌셔버리자
 
 ## 1. 기본 타입 정의
+
 ```
     const num: number = 1;
     const str: string = 'dosaeun';
@@ -43,7 +44,6 @@ TypeScript 스터디 - 뿌셔버리자
     }
 
 ```
-
 
 ## 2. 함수 타입 정의
 
@@ -89,5 +89,23 @@ TypeScript 스터디 - 뿌셔버리자
         return numbers.reduce((a, b) => a + b);
     }
     console.log(addNumber(3, 4));
+}
+```
+
+## 3. Type Alias
+
+-   타입을 직접 만들수 있음.
+
+```
+    {
+        type Text = string;
+        type Num = number;
+        type Hobby = {
+        name: string;
+        years: number;
+    };
+    const name: Text = 'dosaeun';
+    const age: Num = 20;
+    const hobby: Hobby = { name: 'illustration', years: 10 };
 }
 ```
