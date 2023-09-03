@@ -160,7 +160,7 @@ type SuccessState = {
 ## 6. 필수 타입! Discriminated Union
 
 (Union Type 에 보다 더 명확한 공통의 타입 내부 구분자 지정)
-result: 라는 구분자 타입의 키를 생성해서 조건에 맞는 값을 반환함;
+result: 라는 구분자 타입의 키를 생성해서 조건에 맞는 값을 반환함
 
 ```
 {
@@ -223,5 +223,113 @@ result: 라는 구분자 타입의 키를 생성해서 조건에 맞는 값을 �
         employeeId: 123,
         work: () => {},
     });
+}
+```
+
+## 8. enum Type
+
+1. Javascript 에서는 enum 타입이 존재하지 않아서 TS가 자체적으로 제공함.
+2. But, 결과적으로는 사용을 지양함. 마지막 예시에 Days 타입을 지정해도 정확한 타입이 유일하게 지정되지 않고 아무값이나 할당이 됨.
+3. 결론 : enum 타입은 왠만하면 union 타입으로 대체해서 사용히는것이 안전함.
+
+```
+{
+
+    //Javascript 사용 시
+    const MAX_NUM = 6;
+    const MAX_STUDENT_PER_CLASS = 10;
+    const MONDAY = 0;
+    const TUESDAY = 1;
+    const WEDNESDAY = 2; // ....
+
+    const DAYS_ENUM = Object.freeze({
+        MONDAY: 0,
+        TUESDAY: 1,
+        WEDNESDAY: 2,
+    });
+
+    const dayOfToday = DAYS_ENUM.MONDAY;
+    // console.log(dayOfToday);
+
+    //TypeScript 사용 시 (enum 예시)
+    enum Days {
+        Monday,
+        Tuesday,
+        Wednesday,
+        Thursday,
+        Friday,
+        Satarday,
+        Sunday,
+    }
+    let day: Days = Days.Satarday;
+    day = Days.Tuesday;
+    day = 3;
+    console.log(day);
+
+    type DaysOfWeek = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Satarday' | 'Sunday';
+    let dayOfWeek: DaysOfWeek = 'Monday';
+    console.log(dayOfWeek);
+
+    //enum 을 사용하면 나쁘지 않을 예시.. (나타내야하는 값들이 장황하게 길거나 지저분한 필요하지않은 문자열일때는 union 타입을 사용하는것이 더 복잡해진다.)
+    //고로, 아래와 같이 enum을 사용하면 나쁘지 않음.
+    enum Errors {
+        Short = 'error message simple version',
+        Long = 'error message complicated version',
+        Detail = 'error message complicated detail version',
+    }
+    console.log(Errors.Short);
+}
+
+
+```
+
+## 9. inference Type (지양..)
+
+-   (추론) : 추론을 통한 타입의 결정
+
+```
+{
+    let text: string = 'hello';
+    text = 'qa'; //complete
+    // text = 1; //error
+    function print(message: string | number) {
+        console.log(message);
+    }
+
+    print('asdasd');
+    print(1);
+
+    function add(x: number, y: number) {
+        return x + y;
+    }
+
+    const result = add(1, 4);
+    console.log(result);
+}
+```
+
+## 10. Type Assertions
+
+-   타입을 장담하고 선언하는 방법... 지양..
+
+```
+{
+    //좋지 않은 예시
+    function jsStrFunc(): any {
+        return 'saeun';
+    }
+    const result = jsStrFunc();
+    console.log((result as string).length);
+    console.log((<string>result).length);
+
+    //에러 예시 (any 타입에서의 Array어써션을 통해 에러가 발생함)
+    const wrong: any = 5;
+    console.log((wrong as Array<number>).push(1));
+
+    function findNumbers(): number[] | undefined {
+        return undefined;
+    }
+    const numbers = findNumbers();
+    numbers!.push(2);
 }
 ```
