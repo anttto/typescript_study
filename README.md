@@ -110,7 +110,9 @@ TypeScript 스터디 - 뿌셔버리자
 }
 ```
 
-## 4. Union Type (예제1)
+## 4. Union Type (예제1) : 타입의 값을 Or 로 선택함.
+
+A 아니면 B의 타입값을 사용하기 때문에, 명확한 타입의 조건을 주고 키를 선택 해야함.
 
 ```
    type Direction = 'left' | 'right' | 'up' | 'down';
@@ -123,7 +125,7 @@ TypeScript 스터디 - 뿌셔버리자
     const tile: TileSize = 8;
 ```
 
-## 5. Union Type (예제2)
+## 5. Union Type (예제2) - 중요포인트 확인 ()
 
 ```
 //로그인 성공or실패 반환 타입 지정
@@ -144,6 +146,8 @@ type SuccessState = {
             },
         };
     }
+    // 중요한 부분
+    // 타입( state 에 response 가 존재하는지 여부를 확인하고 값을 사용함) union 타입은 필수
     function printLoginState(state: LoginState) {
         if ('response' in state) {
             console.log(`로그인 성공 ${state.response.body}`);
@@ -156,6 +160,7 @@ type SuccessState = {
 ## 6. 필수 타입! Discriminated Union
 
 (Union Type 에 보다 더 명확한 공통의 타입 내부 구분자 지정)
+result: 라는 구분자 타입의 키를 생성해서 조건에 맞는 값을 반환함;
 
 ```
 {
@@ -186,5 +191,37 @@ type SuccessState = {
             console.log(`로그인 실패 ${state.reason}`);
         }
     }
+}
+```
+
+## 7. Intersection Types: &(and) 모든 타입의 값을 사용할 수 있음.
+
+(Union Type 이 확실한 타입 선택을 강요한다면 Intersection Type 은 모든 값을 선택 가능함. and 개념)
+
+```
+{
+    /**
+     * Intersection Types: &(and)
+     */
+    type Student = {
+        name: string;
+        score: number;
+    };
+
+    type Worker = {
+        employeeId: number;
+        work: () => void;
+    };
+
+    function internWork(person: Student & Worker) {
+        console.log(person.name, person.score, person.employeeId, person.work());
+    }
+
+    internWork({
+        name: 'dosaeun',
+        score: 1,
+        employeeId: 123,
+        work: () => {},
+    });
 }
 ```
